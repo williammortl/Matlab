@@ -1,15 +1,13 @@
-%%% Author: William Michael Mortl
-%%% Feel free to use this code for educational purposes, any other use
-%%%     requires citations to William Michael Mortl
-
-function [output] = sudoku(puzzle)
-%% Function: [output] = sudoku(puzzle)
-%% Programmed by: William M Mortl
-%% Description: solves 9x9 sudoku puzzles via branch and bound and integer linear programming, requires Matlab Optimization Toolkit and linprog
-%% Inputs: 
-%%    puzzle === the soduku puzzle, 0 represents unknown
-%% Outputs:
-%%    output === the solution
+function [output] = Sudoku(puzzle)
+% Function: [output] = Sudoku(puzzle)
+% Author: William Michael Mortl
+% Feel free to use this code for educational purposes, any other use
+%     requires citations and recompence to William Michael Mortl
+% Description: solves 9x9 sudoku puzzles via branch and bound and integer linear programming, requires Matlab Optimization Toolkit and linprog
+% Inputs: 
+%    puzzle === the soduku puzzle in matrix form, 0 represents unknown
+% Outputs:
+%    output === the solution in matrix form
 
     %% initialization
     output = [];
@@ -68,15 +66,15 @@ function [output] = sudoku(puzzle)
     % 1 2 3
     % 4 5 6
     % 7 8 9
-    [P, q] = sudokuParseQuadrant(totalSum, P, q, 1, 3, 1, 3);
-    [P, q] = sudokuParseQuadrant(totalSum, P, q, 1, 3, 4, 6);
-    [P, q] = sudokuParseQuadrant(totalSum, P, q, 1, 3, 7, 9);
-    [P, q] = sudokuParseQuadrant(totalSum, P, q, 4, 6, 1, 3);
-    [P, q] = sudokuParseQuadrant(totalSum, P, q, 4, 6, 4, 6);
-    [P, q] = sudokuParseQuadrant(totalSum, P, q, 4, 6, 7, 9);
-    [P, q] = sudokuParseQuadrant(totalSum, P, q, 7, 9, 1, 3);
-    [P, q] = sudokuParseQuadrant(totalSum, P, q, 7, 9, 4, 6);
-    [P, q] = sudokuParseQuadrant(totalSum, P, q, 7, 9, 7, 9);
+    [P, q] = SudokuParseQuadrant(totalSum, P, q, 1, 3, 1, 3);
+    [P, q] = SudokuParseQuadrant(totalSum, P, q, 1, 3, 4, 6);
+    [P, q] = SudokuParseQuadrant(totalSum, P, q, 1, 3, 7, 9);
+    [P, q] = SudokuParseQuadrant(totalSum, P, q, 4, 6, 1, 3);
+    [P, q] = SudokuParseQuadrant(totalSum, P, q, 4, 6, 4, 6);
+    [P, q] = SudokuParseQuadrant(totalSum, P, q, 4, 6, 7, 9);
+    [P, q] = SudokuParseQuadrant(totalSum, P, q, 7, 9, 1, 3);
+    [P, q] = SudokuParseQuadrant(totalSum, P, q, 7, 9, 4, 6);
+    [P, q] = SudokuParseQuadrant(totalSum, P, q, 7, 9, 7, 9);
 
     %% each cell only 1 value
     for row = 1:9
@@ -115,7 +113,7 @@ function [output] = sudoku(puzzle)
     end
 
     %% run branch and bound
-    [~, optSolution, cannotSolve, ~] = branchAndBound(P, q, r, '', 1);
+    [~, optSolution, cannotSolve, ~] = BranchAndBound(P, q, r, '', 1);
 
     %% if solvable then build output
     if (cannotSolve == 1)
@@ -151,7 +149,7 @@ function [output] = sudoku(puzzle)
     end
 end
 
-function [P, q] = sudokuParseQuadrant(totalSum, P, q, rowStart, rowEnd, colStart, colEnd)
+function [P, q] = SudokuParseQuadrant(totalSum, P, q, rowStart, rowEnd, colStart, colEnd)
 %% Function: [P, q] = sudokuParseQuadrant(totalSum, puzzle, P, q, rowStart, rowEnd, colStart, colEnd)
 %% Programmed by: William M Mortl
 %% Description: sets up the constraints for the quadrants of a 9x9 sudoku puzzle

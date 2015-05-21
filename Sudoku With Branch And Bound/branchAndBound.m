@@ -1,19 +1,18 @@
-%%% Author: William Michael Mortl
-%%% Feel free to use this code for educational purposes, any other use
-%%%     requires citations to William Michael Mortl
-
-function [optVal, optSolution, cannotSolve, pathSol] = branchAndBound(P, q, r, pathString, takeFirst)
-%% Function: [optVal, optSolution, stalls, totalPivots] = branchAndBound(P,q,r,useLinprog,pathString,takeFirst)
-%% Programmed by: William M Mortl
-%% Description: branch and bound integer linear programming solver, requires Matlab Optimization Toolkit and linprog
-%% Inputs: 
-%%    (P, q, r) === For linear programming, these map to P=>A (need to pad with slack vars), q=>b, r=>c (need to pad with slack vars)
-%%    pathString === used for recursion, should be ''
-%%    takeFirst === if 1 then use the first acceptable solution, no optimization required
-%% Outputs:
-%%    objVal === new objective value
-%%    optSolution === a vector of values for the original problem variables
-%%    cannotSolve === this is 1 if there was no solution
+function [optVal, optSolution, cannotSolve, pathSol] = BranchAndBound(P, q, r, pathString, takeFirst)
+% Function: [optVal, optSolution, stalls, totalPivots] = BranchAndBound(P,q,r,useLinprog,pathString,takeFirst)
+% Author: William Michael Mortl
+% Feel free to use this code for educational purposes, any other use
+%     requires citations and recompence to William Michael Mortl
+% Description: branch and bound integer linear programming solver, requires Matlab Optimization Toolkit and linprog
+% Inputs: 
+%    (P, q, r) === For linear programming, these map to P=>A (need to pad with slack vars), q=>b, r=>c (need to pad with slack vars)
+%    pathString === used for recursion, should be ''
+%    takeFirst === if 1 then use the first acceptable solution, no optimization required
+% Outputs:
+%    objVal === new objective value
+%    optSolution === a vector of values for the original problem variables
+%    cannotSolve === this is 1 if there was no solution
+%    pathSol === the path to the solution
 
     %% global variables
     global maxObj;
@@ -72,7 +71,7 @@ function [optVal, optSolution, cannotSolve, pathSol] = branchAndBound(P, q, r, p
         pathL = strcat(pathString, ' x', num2str(branchOn), '<floor(', num2str(optSolution(branchOn)), ')');
 
         % branch left
-        [optValL, optSolutionL, cannotSolveL, pathSolL] = branchAndBound(PL, qL, r, pathL, takeFirst);
+        [optValL, optSolutionL, cannotSolveL, pathSolL] = BranchAndBound(PL, qL, r, pathL, takeFirst);
         optSolutionL = round(optSolutionL * 1e4) / 1e4;
 
         % generate right branch variables
@@ -81,7 +80,7 @@ function [optVal, optSolution, cannotSolve, pathSol] = branchAndBound(P, q, r, p
         pathR = strcat(pathString, ' x', num2str(branchOn), '>ceil(', num2str(optSolution(branchOn)), ')');
 
         % branch right
-        [optValR, optSolutionR, cannotSolveR, pathSolR] = branchAndBound(PR, qR, r, pathR, takeFirst);
+        [optValR, optSolutionR, cannotSolveR, pathSolR] = BranchAndBound(PR, qR, r, pathR, takeFirst);
         optSolutionR = round(optSolutionR * 1e4) / 1e4;
 
         % check to see if we have a solution
@@ -141,13 +140,15 @@ function [optVal, optSolution, cannotSolve, pathSol] = branchAndBound(P, q, r, p
 end
 
 function [index] = vectorAllInteger(v)
-%% Function: [index] = vectorAllInteger(v)
-%% Programmed by: William M Mortl
-%% Description: checks to see if all vector elements are integer values
-%% Inputs: 
-%%    v === a vector to examine
-%% Outputs:
-%%    index === the index of the first non-integer element in vector v, 0 if all are integers
+% Function: [index] = vectorAllInteger(v)
+% Author: William Michael Mortl
+% Feel free to use this code for educational purposes, any other use
+%     requires citations and recompence to William Michael Mortl
+% Description: checks to see if all vector elements are integer values
+% Inputs: 
+%    v === a vector to examine
+% Outputs:
+%    index === the index of the first non-integer element in vector v, 0 if all are integers
 
     %% check to see if all elements of the vector are integers
     index = 0;

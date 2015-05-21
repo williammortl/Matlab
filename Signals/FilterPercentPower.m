@@ -1,24 +1,21 @@
-function [ vectorOut ] = FilterPercentPower(vectorIn, samplingRate, lowerOrHigher, percent)
+function [vectorOut] = FilterPercentPower(signalVector, samplingRate, lowerOrHigher, percent)
+% Function: [ vectorOut ] = FilterPercentPower(signalVector, samplingRate, lowerOrHigher, percent)
+% Author: William Michael Mortl
+% Feel free to use this code for educational purposes, any other use
+%     requires citations and recompence to William Michael Mortl
+% Description: Filters frequencies that are lower or higher than a percent
+%              of the maximum power
+% Inputs: 
+%    signalVector === the column vector containing the signal
+%    samplingRate === the sampling rate for the vector
+%    lowerOrHigher === 1 if power has to be greater than cutoff, 0 if lower
+%    percent === the percent of the max frequency power used as a cutoff
+% Outputs:
+%    vectorOut === filtered signal
 
-    %% fft
-    [~, signalPower, fftVectorIn] = FFTAnalyze(vectorIn, samplingRate);
-
-    %% edit fftVectorIn to only allow frequencies with less or more power than max
+    %% call FilterPower
     cutoff = max(signalPower) * percent;
-    if (lowerOrHigher >= 1)
-        
-        % only allow frequencies with power GREATER THAN the percent of the max 
-        fftVectorIn(find(signalPower <= cutoff)) = 0;
-        
-    else
-        
-        % only allow frequencies with power LESS THAN the percent of the max
-        fftVectorIn(find(signalPower >= cutoff)) = 0;
-    
-    end
-    
-    %% transform back
-    vectorOut = ifft(fftVectorIn, 'symmetric');
+    vectorOut = FilterPower(signalVector, samplingRate, lowerOrHigher, cutoff);
     
 end
 

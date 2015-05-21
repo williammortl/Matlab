@@ -1,9 +1,8 @@
-%%% Author: William Michael Mortl
-%%% Feel free to use this code for educational purposes, any other use
-%%%     requires citations to William Michael Mortl
-
-%%% This file simply tests my sudoku solver
-%%% PLEASE NOTE: the sudoku solver requires the Matlab optimization toolkit
+% Author: William Michael Mortl
+% Feel free to use this code for educational purposes, any other use
+%     requires citations and recompence to William Michael Mortl
+% This file simply tests my sudoku solver
+% PLEASE NOTE: the sudoku solver requires the Matlab optimization toolkit
 
 %% a couple of puzzles to test, please note: place zeroes where we do not know the number
 % testPuzzle = ...
@@ -17,7 +16,7 @@ testPuzzle
 
 %% solve the puzzle
 disp('Solving...');
-[solution] = sudoku(testPuzzle);
+[solution] = Sudoku(testPuzzle);
 
 %% display the solution
 disp('The solution:');
