@@ -1,4 +1,4 @@
-Various Matlab Code
+Assorted Matlab Source Code
 by William Mortl
 http://www.williammortl.com
 
